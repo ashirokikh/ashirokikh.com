@@ -1,4 +1,4 @@
-function Decompress-RapidStartFile {
+function Convert-RapidStartFileToXmlFile {
     param(
         [Parameter(Mandatory=$true)]
         [string]$RapidStartFilePath
@@ -7,7 +7,7 @@ function Decompress-RapidStartFile {
     $XmlFilePath = [System.IO.Path]::ChangeExtension($filePath, "xml")
     Write-Host "Decompressing $filePath to $XmlFilePath"
     $xmlFileStream = New-Object IO.FileStream ($XmlFilePath, [System.IO.FileMode]::Create)
-    $rapidstartFileStream = New-Object IO.FileStream ($filePath, [System.IO.FileMode]::Open)
+    $rapidstartFileStream = New-Object IO.FileStream ($filePath, [System.IO.FileMode]::Open, [IO.FileAccess]::Read)
     $gzipStream = New-Object IO.Compression.GzipStream ($rapidstartFileStream, [IO.Compression.CompressionMode]::Decompress)
     
     try {
@@ -20,7 +20,7 @@ function Decompress-RapidStartFile {
     }
 }
 
-function Compress-RapidStartFile {
+function Convert-XmlFileToRapidStartFile {
     param(
         [Parameter(Mandatory=$true)]
         [string]$XmlFilePath
@@ -28,8 +28,8 @@ function Compress-RapidStartFile {
     $filePath = Join-Path $PSScriptRoot ([System.IO.Path]::GetFileName($XmlFilePath)) -Resolve
     $RapidStartFilePath = [System.IO.Path]::ChangeExtension([System.IO.Path]::GetFullPath($filePath), "rapidstart")
     Write-Host "Compressing $filePath to $RapidStartFilePath"
-    $xmlFileStream = New-Object IO.FileStream ($filePath, [IO.FileMode]::Open)
-    $rapidstartFileStream = New-Object IO.FileStream ($filePath, [System.IO.FileMode]::Create)
+    $xmlFileStream = New-Object IO.FileStream ($filePath, [IO.FileMode]::Open, [IO.FileAccess]::Read)
+    $rapidstartFileStream = New-Object IO.FileStream ($RapidStartFilePath, [System.IO.FileMode]::Create)
     $gzipStream = New-Object IO.Compression.GzipStream ($rapidstartFileStream, [IO.Compression.CompressionMode]::Compress)
     
     try {
@@ -43,7 +43,8 @@ function Compress-RapidStartFile {
 }
 
 # Example of getting the contents of a RapidStart file:
-Decompress-RapidStartFile -RapidStartFilePath .\PackageCHECK-CONTENTS.rapidstart
+# Convert-RapidStartFileToXmlFile -RapidStartFilePath .\PackageCHECK-CONTENTS.rapidstart
 
 # Example of creating a RapidStart file from an xml file:
-# Compress-RapidStartFile -XmlFilePath .\PackageCHECK-CONTENTS.xml
+# Convert-XmlFileToRapidStartFile -XmlFilePath .\PackageCHECK-CONTENTS.xml
+
