@@ -11,6 +11,13 @@ page 50100 "ASH Fake AI Service"
     {
         area(content)
         {
+            field(Provider; Provider)
+            {
+                ApplicationArea = All;
+                Caption = 'Provider';
+                ToolTip = 'The AI service provider to use.';
+            }
+
             field(Question; Question)
             {
                 ApplicationArea = All;
@@ -39,7 +46,7 @@ page 50100 "ASH Fake AI Service"
                 var
                     FakeAiServiceMgt: Codeunit "ASH Fake AI Service Mgt.";
                 begin
-                    Message(FakeAiServiceMgt.GetAnswer(Question));
+                    Message(FakeAiServiceMgt.GetAnswer(Provider, Question));
                 end;
             }
         }
@@ -47,6 +54,7 @@ page 50100 "ASH Fake AI Service"
 
     var
         Question: Text;
+        Provider: Enum "ASH Fake AI Service Providers";
 
 }
 
