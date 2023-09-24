@@ -1,4 +1,4 @@
-codeunit 50102 "ASH Bingle AI Service Mgt."
+codeunit 50102 "ASH Bingle AI Service Mgt." implements "ASH AI Service Provider"
 {
     procedure GetAnswer(Question: Text) Answer: Text
     begin

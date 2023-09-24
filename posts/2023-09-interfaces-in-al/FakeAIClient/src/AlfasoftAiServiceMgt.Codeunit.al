@@ -1,4 +1,4 @@
-codeunit 50101 "ASH Alfasoft AI Service Mgt."
+codeunit 50101 "ASH Alfasoft AI Service Mgt." implements "ASH AI Service Provider"
 {
     procedure GetAnswer(Question: Text) Answer: Text
     begin
